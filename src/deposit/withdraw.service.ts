@@ -25,8 +25,13 @@ export class WithdrawService {
 
   async withdraw(amount: ethers.BigNumber, receiver: string): Promise<ethers.providers.TransactionResponse> {
     try {
+      // Specify custom gas options
+    const gasOptions = {
+      gasLimit: ethers.BigNumber.from('1000000'), // Adjust as needed
+      gasPrice: ethers.utils.parseUnits('50', 'gwei') // Adjust the gas price (in gwei)
+    };
       // Call the withdraw function from the contract
-      const tx = await this.contract.withdraw(amount, receiver);
+      const tx = await this.contract.withdraw(amount, receiver, gasOptions);
 
       // Wait for the transaction to be mined (optional)
       await tx.wait();
